@@ -23,7 +23,7 @@ export function SiteHeader({ configuration }: { configuration: StorefrontConfigu
       <nav aria-label="Site header" className="site-menu-bar">
         <div className="site-menu-bar__inner">
           <Link className={`brand${site.logo ? " brand--image" : ""}`} href="/" aria-label={`${site.name} home`}>
-            {site.logo ? <Image src={site.logo.url} alt={site.logo.alt} width={240} height={80} priority unoptimized={process.env.NODE_ENV === "development"} /> : site.name}
+            {site.logo ? <Image src={site.logo.url} alt={site.logo.alt} width={280} height={96} priority unoptimized={process.env.NODE_ENV === "development"} /> : site.name}
           </Link>
           <DesktopMegaMenu items={navigation.header} />
           <div className="site-header__actions">
