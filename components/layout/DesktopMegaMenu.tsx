@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Plus } from "@phosphor-icons/react";
+import { CaretDown, Plus } from "@phosphor-icons/react";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { NavigationItem } from "@/types/storefront";
@@ -128,16 +128,22 @@ export function DesktopMegaMenu({ items }: { items: NavigationItem[] }) {
             aria-controls={"mega-menu-" + item.id}
             aria-expanded={isOpen}
             aria-haspopup="true"
-            className={"site-nav__link" + (isOpen || isCurrent ? " is-current" : "")}
+            className={"site-nav__link site-nav__trigger" + (isOpen || isCurrent ? " is-current" : "")}
             key={item.id}
-            onClick={() => openMenu(item)}
+            onClick={() => (isOpen ? closeMenu() : openMenu(item))}
             onFocus={(event) => {
               if (event.currentTarget.matches(":focus-visible")) openMenu(item);
             }}
             onPointerEnter={() => openMenu(item)}
             type="button"
           >
-            {item.label}
+            <span>{item.label}</span>
+            <CaretDown
+              aria-hidden="true"
+              className={"site-nav__caret" + (isOpen ? " is-open" : "")}
+              size={12}
+              weight="bold"
+            />
           </button>
         );
       })}
@@ -153,7 +159,7 @@ export function DesktopMegaMenu({ items }: { items: NavigationItem[] }) {
         >
           <div className="mega-menu__inner">
             <div className="mega-menu__links">
-              {activeParent.children.map((child) => {
+              {activeParent.children.map((child, index) => {
                 const isActive = activeChildId === child.id;
 
                 return (
@@ -162,6 +168,7 @@ export function DesktopMegaMenu({ items }: { items: NavigationItem[] }) {
                     key={child.id}
                     onFocus={() => setActiveChildId(child.id)}
                     onPointerEnter={() => setActiveChildId(child.id)}
+                    style={{ animationDelay: `${index * 45}ms` }}
                   >
                     <ItemLink className="mega-menu__item" item={child} onNavigate={closeMenu} />
                     <Plus aria-hidden="true" className="mega-menu__plus" size={34} weight="light" />

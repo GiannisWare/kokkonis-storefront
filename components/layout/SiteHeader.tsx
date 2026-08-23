@@ -14,33 +14,35 @@ export function SiteHeader({ configuration }: { configuration: StorefrontConfigu
   const hasUtilityBar = Object.values(site.utility_bar).some(Boolean);
 
   return (
-    <header className="shell-header">
+    <>
       {hasUtilityBar && (
-        <div className="utility-bar">
+        <header className="utility-bar">
           <span>{site.utility_bar.left}</span><span>{site.utility_bar.center}</span><span>{site.utility_bar.right}</span>
-        </div>
+        </header>
       )}
-      <div className="site-header">
-        <Link className={`brand${site.logo ? " brand--image" : ""}`} href="/" aria-label={`${site.name} home`}>
-          {site.logo ? <Image src={site.logo.url} alt={site.logo.alt} width={240} height={80} priority unoptimized={process.env.NODE_ENV === "development"} /> : site.name}
-        </Link>
-        <DesktopMegaMenu items={navigation.header} />
-        <div className="site-header__actions">
-          <Link className="search-link" href="/products#catalogue-search"><span>Search</span><MagnifyingGlass aria-hidden="true" size={19} /></Link>
-          <details className="mobile-menu">
-            <summary className="icon-button" aria-label="Open navigation"><List aria-hidden="true" size={23} /></summary>
-            <nav aria-label="Mobile navigation">
-              {navigation.header.map((item) => item.children.length > 0 ? (
-                <details className="mobile-submenu" key={item.id}>
-                  <summary>{item.label}<CaretDown aria-hidden="true" size={14} /></summary>
-                  <MenuLink item={item} />
-                  {item.children.map((child) => <MenuLink item={child} key={child.id} />)}
-                </details>
-              ) : <MenuLink item={item} key={item.id} />)}
-            </nav>
-          </details>
+      <nav aria-label="Site header" className="site-menu-bar">
+        <div className="site-menu-bar__inner">
+          <Link className={`brand${site.logo ? " brand--image" : ""}`} href="/" aria-label={`${site.name} home`}>
+            {site.logo ? <Image src={site.logo.url} alt={site.logo.alt} width={240} height={80} priority unoptimized={process.env.NODE_ENV === "development"} /> : site.name}
+          </Link>
+          <DesktopMegaMenu items={navigation.header} />
+          <div className="site-header__actions">
+            <Link className="search-link" href="/products#catalogue-search"><span>Search</span><MagnifyingGlass aria-hidden="true" size={19} /></Link>
+            <details className="mobile-menu">
+              <summary className="icon-button" aria-label="Open navigation"><List aria-hidden="true" size={23} /></summary>
+              <nav aria-label="Mobile navigation">
+                {navigation.header.map((item) => item.children.length > 0 ? (
+                  <details className="mobile-submenu" key={item.id}>
+                    <summary>{item.label}<CaretDown aria-hidden="true" size={14} /></summary>
+                    <MenuLink item={item} />
+                    {item.children.map((child) => <MenuLink item={child} key={child.id} />)}
+                  </details>
+                ) : <MenuLink item={item} key={item.id} />)}
+              </nav>
+            </details>
+          </div>
         </div>
-      </div>
-    </header>
+      </nav>
+    </>
   );
 }
