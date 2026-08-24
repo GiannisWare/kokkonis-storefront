@@ -77,7 +77,7 @@ export function CatalogueFiltersPanel({ filters, selected }: { filters: Catalogu
           {filters.attributes.map((attribute) => <FilterGroup title={attribute.name} key={attribute.slug}>
             {attribute.values.map((option) => {
               const token = `${attribute.slug}:${option.slug}`;
-              return <label key={token}><input type="checkbox" name="attributes" value={token} defaultChecked={selected.attributes.includes(token)} />{option.swatch_hex && <i className="filter-swatch" style={{ backgroundColor: option.swatch_hex }} />}<span>{option.value}</span><small>{option.products_count}</small></label>;
+              return <label key={token}><input type="checkbox" name="attributes[]" value={token} defaultChecked={selected.attributes.includes(token)} />{option.swatch_hex && <i className="filter-swatch" style={{ backgroundColor: option.swatch_hex }} />}<span>{option.value}</span><small>{option.products_count}</small></label>;
             })}
           </FilterGroup>)}
 

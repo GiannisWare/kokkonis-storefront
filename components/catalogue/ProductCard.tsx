@@ -25,6 +25,7 @@ export function ProductCard({ product, index }: ProductCardProps) {
           src={product.image?.card ?? placeholderImages[index % placeholderImages.length]}
           alt={product.image?.alt ?? ""}
           fill
+          loading={index < 3 ? "eager" : "lazy"}
           sizes="(max-width: 599px) 100vw, (max-width: 1023px) 50vw, 33vw"
           unoptimized={process.env.NODE_ENV === "development"}
         />

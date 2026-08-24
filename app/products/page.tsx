@@ -43,7 +43,7 @@ export default async function ProductsPage({ searchParams }: PageProps<"/product
     q: readString(params.q),
     category: readString(params.category),
     brand: readString(params.brand),
-    attributes: readArray(params.attributes),
+    attributes: readArray(params["attributes[]"] ?? params.attributes),
     availability: readString(params.availability),
     sort: readString(params.sort) || "recommended",
   };

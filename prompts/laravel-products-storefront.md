@@ -55,6 +55,8 @@ Do not expose internal foreign keys, barcode, deletion state, admin fields, pric
 - Use a short request timeout, status checks, validated response structure, and a safe user-facing failure state.
 - Revalidate catalogue data on a short interval so admin changes appear without a frontend deployment.
 - Use strict Next Image remote patterns for Laravel media rather than a broad wildcard host.
+- Eager-load only the first desktop product row; keep later catalogue imagery lazy-loaded.
+- Submit attribute filters as `attributes[]` so repeated values remain explicit without colliding with the browser's native `form.attributes` property. Continue accepting legacy `attributes` URLs.
 - Render plain text only; do not inject product descriptions as HTML.
 - Preserve the reference's airy editorial grid, thin rules, restrained pills, large imagery, and dark ink palette.
 - Remove reference-only commerce affordances: prices, sale, account, bag, cart, and checkout.

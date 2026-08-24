@@ -88,7 +88,7 @@ Last updated: 2026-08-22
 | Shadow | None |
 | Accent usage | Minimal; product state remains typographic |
 
-**Pattern notes:** Cards stay flat and editorial. Product imagery uses a fixed square frame with `object-fit: contain`. Hide missing optional metadata instead of printing empty values.
+**Pattern notes:** Cards stay flat and editorial. Product imagery uses a fixed square frame with `object-fit: contain`. The first desktop row loads eagerly for LCP; later rows remain lazy-loaded. Hide missing optional metadata instead of printing empty values.
 
 ### Product Placeholder Media
 
@@ -159,3 +159,23 @@ Last updated: 2026-08-22
 | Accent usage | Real attribute swatches only; primary action remains black |
 
 **Pattern notes:** Desktop filters remain a persistent open left rail. At the 980px compact breakpoint the client boundary closes the native disclosure and resynchronizes it when the breakpoint changes. Do not hide the summary of a closed `<details>` element without also guaranteeing an open desktop state. Filter state is encoded in GET query parameters so filtered views stay server-rendered and shareable.
+
+### Scroll-Painted Frame
+
+File: `components/home/ScrollPaintFrame.tsx`
+Last updated: 2026-08-24
+
+| Property | Pattern |
+| --- | --- |
+| Background | Warm mineral `#f4f1ea` with a restrained paper/canvas texture |
+| Border | Paint supplies the frame; structural dividers remain hairline |
+| Border radius | None |
+| Text — primary | Bebas Neue uppercase statement in `--ink`, maximum three lines |
+| Text — secondary | Inter utility label in `--charcoal`; monospace colour value |
+| Spacing | Full-viewport desktop chapter with generous 48–120px editorial gaps |
+| Motion | GSAP ScrollTrigger pin and scrub; SVG dash reveal synchronized to MotionPath brush travel |
+| Hover state | Small perspective tilt and wet-highlight shift inside the active canvas only |
+| Shadow | Physical canvas and brush grounding shadows only; no UI-card shadow |
+| Accent usage | Random initial mineral colour with a user-controlled native colour picker |
+
+**Pattern notes:** This is the homepage's only featured-product presentation and sits directly after the campaign hero. Keep the animation isolated to one Client Component and never route scroll progress through React state. The Server Component supplies a small real Paints subset; the client only randomizes presentation order and animates one product at a time inside the portrait canvas. Desktop animates transforms, opacity, and SVG dash offsets; mobile, coarse layouts, and reduced-motion users receive the completed frame with one static product. The colour picker controls the frame and bristles live, but the ferrule remains untinted. Do not reuse this pinned treatment on catalogue or filtering pages.
