@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { Bebas_Neue, Inter } from "next/font/google";
+import { Bebas_Neue, Geist } from "next/font/google";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { getStorefrontConfiguration } from "@/lib/api/storefront";
 import { fallbackStorefront } from "@/types/storefront";
 import "./globals.css";
 
-const inter = Inter({
+const geist = Geist({
   variable: "--font-ui",
   subsets: ["latin"],
 });
@@ -27,7 +27,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   const configuration = await getStorefrontConfiguration().catch(() => fallbackStorefront);
 
   return (
-    <html lang="en" className={`${inter.variable} ${bebasNeue.variable}`}>
+    <html lang="en" className={`${geist.variable} ${bebasNeue.variable}`}>
       <body>
         <SiteHeader configuration={configuration} />
         {children}

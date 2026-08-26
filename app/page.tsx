@@ -1,5 +1,4 @@
-import { HeroCarousel } from "@/components/home/HeroCarousel";
-import { ScrollPaintFrame } from "@/components/home/ScrollPaintFrame";
+import { PaintStory } from "@/components/home/PaintStory";
 import { getProducts } from "@/lib/api/products";
 import { getStorefrontConfiguration } from "@/lib/api/storefront";
 import { fallbackStorefront } from "@/types/storefront";
@@ -12,9 +11,7 @@ export default async function Home() {
 
   return (
     <main id="top">
-      <HeroCarousel slides={configuration.hero_slides} />
-
-      <ScrollPaintFrame products={paintCatalogue?.data ?? []} />
+      <PaintStory configuration={configuration} products={paintCatalogue?.data ?? []} slides={configuration.hero_slides} />
     </main>
   );
 }

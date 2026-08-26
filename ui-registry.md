@@ -9,7 +9,7 @@
 | Secondary text | `--mute: #707072` |
 | Dividers | `1px solid --hairline-soft`; never card shadows |
 | Display type | Bebas Neue, uppercase, reserved for campaign/page statements |
-| UI type | Inter 400/500 at 14–16px |
+| UI type | Geist 400/500 at 14–16px |
 | Spacing | 8px base; 48px desktop section rhythm |
 | Card geometry | Square media, zero radius, zero shadow, zero internal frame padding |
 | Controls | 48px pills or 44px circular Phosphor icon controls |
@@ -56,20 +56,24 @@ Last updated: 2026-08-23
 
 **Pattern notes:** Desktop parents with children open the full-width panel on hover, focus or click. Child hover/focus changes the preview image. Escape closes and returns focus to the parent. Mobile navigation stays lightweight and does not load decorative submenu previews. Admin-uploaded media is optional, and a missing or failed image must degrade to the neutral placeholder without layout shift.
 
-### Campaign Hero
+### Framed Paint Story
 
-File: `app/page.tsx`
-Last updated: 2026-08-22
+Files: `components/home/PaintStory.tsx` and its section components
+Last updated: 2026-08-24
 
 | Property | Pattern |
 | --- | --- |
-| Composition | Full-width dark photographic/collage field with text anchored low-left |
-| Display type | Bebas Neue, uppercase, compact leading |
-| CTA | White 48px pill with dark text |
-| Spacing | Large desktop inset, reduced predictably at tablet/mobile widths |
-| Image treatment | Cover/edge-to-edge; local placeholders until the generated master assets are committed |
+| Composition | White breathing space around one floating rounded black stage; three full-viewport narrative acts |
+| Display type | Oversized Bebas Neue words remain intact behind a smaller centered hero object |
+| UI type | Geist for navigation, product names, controls and supporting copy |
+| Motion | Desktop GSAP ScrollTrigger pin/scrub; hero → oversized rotating brush → centered product finale |
+| Paint | Layered SVG perimeter at homepage layer 1000, with rough, wet and bristle strokes; live native colour control |
+| Products | Six real published Paints products, split into two three-column editorial slices |
+| CTA | White pill with black border/text at rest; orange circular fill expands across the surface on hover and the shape resolves to 12px corners |
+| Shadow | Broad, low-contrast ambient shadow around the complete black stage |
+| Responsive | Sequential static acts with dedicated brush placements below 900px; same fallback for reduced motion |
 
-**Pattern notes:** Keep the opening statement immediate and spacious. One statement and one action only; avoid badge clouds, floating panels and decorative gradients.
+**Pattern notes:** This is the homepage's sole featured-product story. Keep scroll progress in GSAP rather than React state. Use a moderately compact pinned distance (about 2.9 viewport heights, with a 2200px minimum) and a 0.8-second scrub so the three acts advance promptly without losing smooth interpolation. The painted perimeter owns layer 1000; the transparent third-act content plane sits at 1001 so its CTA and product labels are never crossed by the trail. On the homepage, mount the header inside the clipped `.paint-story__stage`, hide the global layout header, and move the inner header upward beneath the perimeter so navigation never crosses the white frame. Every other route keeps the normal global header. Never use a rectangular header backdrop over the rounded top corners. On the homepage only, current, hovered, and keyboard-focused navigation items use orange text without a rectangular border; navigation on every other route keeps the global outlined interaction pattern. Hero words are never split into partial strings. The initial brush stays smaller than the word and receives only a subtle hover drift. Eyebrow, description, products, picker, and actions each own a protected zone: Act 2 reserves the lower-left for products and the lower-right for the colour picker. Campaign copy and imagery remain Laravel-configurable; product data stays read-only and comes from the versioned API. The brush ferrule is never tinted, and no price, bag, cart, ratings or checkout language belongs in the composition. Three.js is intentionally unnecessary while the supplied photographic cutout remains the primary object.
 
 ### Product Card
 
@@ -122,25 +126,6 @@ Last updated: 2026-08-22
 
 **Pattern notes:** The footer closes the editorial composition without introducing account, bag, price or checkout language.
 
-### Configurable Campaign Carousel
-
-File: `components/home/HeroCarousel.tsx`
-Last updated: 2026-08-22
-
-| Property | Pattern |
-| --- | --- |
-| Background | Full-bleed campaign image; warm mineral neutral is the safe fallback |
-| Border | None; controls use a `1px` translucent ink border |
-| Border radius | Square campaign field; only directional controls are circular |
-| Text — primary | Bebas Neue uppercase display statement, `--ink` |
-| Text — secondary | Inter body copy, `--charcoal` |
-| Spacing | Low-left editorial copy with 24–32px internal rhythm |
-| Hover state | Autoplay pauses on hover and keyboard focus |
-| Shadow | None |
-| Accent usage | Black primary CTA; campaign imagery supplies visual colour |
-
-**Pattern notes:** Campaign images keep their subjects toward the right and reserve negative space for left-aligned copy. Transitions stop for reduced-motion users. Never place campaign copy inside a floating card.
-
 ### Catalogue Facet Rail
 
 File: `components/catalogue/CatalogueFilters.tsx`
@@ -151,7 +136,7 @@ Last updated: 2026-08-22
 | Background | Open `--canvas` surface |
 | Border | `1px solid --hairline-soft` between groups |
 | Border radius | None |
-| Text — primary | 10–12px uppercase Inter labels in `--ink` |
+| Text — primary | 10–12px uppercase Geist labels in `--ink` |
 | Text — secondary | Counts and supporting labels in `--mute` |
 | Spacing | 20px vertical group padding; compact 8px option rhythm |
 | Hover state | Native control affordances; strong focus outline |
@@ -159,23 +144,3 @@ Last updated: 2026-08-22
 | Accent usage | Real attribute swatches only; primary action remains black |
 
 **Pattern notes:** Desktop filters remain a persistent open left rail. At the 980px compact breakpoint the client boundary closes the native disclosure and resynchronizes it when the breakpoint changes. Do not hide the summary of a closed `<details>` element without also guaranteeing an open desktop state. Filter state is encoded in GET query parameters so filtered views stay server-rendered and shareable.
-
-### Scroll-Painted Frame
-
-File: `components/home/ScrollPaintFrame.tsx`
-Last updated: 2026-08-24
-
-| Property | Pattern |
-| --- | --- |
-| Background | Warm mineral `#f4f1ea` with a restrained paper/canvas texture |
-| Border | Paint supplies the frame; structural dividers remain hairline |
-| Border radius | None |
-| Text — primary | Bebas Neue uppercase statement in `--ink`, maximum three lines |
-| Text — secondary | Inter utility label in `--charcoal`; monospace colour value |
-| Spacing | Full-viewport desktop chapter with generous 48–120px editorial gaps |
-| Motion | GSAP ScrollTrigger pin and scrub; SVG dash reveal synchronized to MotionPath brush travel |
-| Hover state | Small perspective tilt and wet-highlight shift inside the active canvas only |
-| Shadow | Physical canvas and brush grounding shadows only; no UI-card shadow |
-| Accent usage | Random initial mineral colour with a user-controlled native colour picker |
-
-**Pattern notes:** This is the homepage's only featured-product presentation and sits directly after the campaign hero. Keep the animation isolated to one Client Component and never route scroll progress through React state. The Server Component supplies a small real Paints subset; the client only randomizes presentation order and animates one product at a time inside the portrait canvas. Desktop animates transforms, opacity, and SVG dash offsets; mobile, coarse layouts, and reduced-motion users receive the completed frame with one static product. The colour picker controls the frame and bristles live, but the ferrule remains untinted. Do not reuse this pinned treatment on catalogue or filtering pages.
