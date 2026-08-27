@@ -1,5 +1,5 @@
 import "server-only";
-import { apiGet, ApiError } from "@/lib/api/client";
+import { apiGet, ApiError, resolveMediaUrl } from "@/lib/api/client";
 import type { ProductQuery } from "@/types/catalogue";
 import type { PaginatedProducts, Product, ProductImage } from "@/types/product";
 
@@ -44,11 +44,11 @@ function parseImage(value: unknown): ProductImage | null {
   return {
     id: value.id,
     alt: value.alt,
-    original: value.original,
-    thumb: value.thumb,
-    card: value.card,
-    medium: value.medium,
-    large: value.large,
+    original: resolveMediaUrl(value.original),
+    thumb: resolveMediaUrl(value.thumb),
+    card: resolveMediaUrl(value.card),
+    medium: resolveMediaUrl(value.medium),
+    large: resolveMediaUrl(value.large),
   };
 }
 

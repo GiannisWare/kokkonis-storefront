@@ -28,6 +28,35 @@ function getApiBaseUrl(): URL {
   return url;
 }
 
+export function resolveMediaUrl(value: string): string {
+  const configuredUrl = process.env.MEDIA_BASE_URL;
+
+  if (!configuredUrl) {
+    return value;
+  }
+
+  try {
+    const sourceUrl = new URL(value);
+    const mediaBaseUrl = new URL(configuredUrl);
+
+    if (mediaBaseUrl.protocol !== "http:" && mediaBaseUrl.protocol !== "https:") {
+      throw new ApiError();
+    }
+
+    mediaBaseUrl.pathname = sourceUrl.pathname;
+    mediaBaseUrl.search = sourceUrl.search;
+    mediaBaseUrl.hash = "";
+
+    return mediaBaseUrl.toString();
+  } catch (error) {
+    if (error instanceof ApiError) {
+      throw error;
+    }
+
+    throw new ApiError();
+  }
+}
+
 export async function apiGet<T>(
   path: string,
   parse: (value: unknown) => T,

@@ -2,18 +2,27 @@ name: CI Storefront
 
 on:
   push:
-    branches: [main]
+    branches: [main, develop]
   pull_request:
     branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  LARAVEL_API_URL: http://127.0.0.1:8000
+  MEDIA_BASE_URL: https://pub-820c2d73202947789c85636a62e05aed.r2.dev
+
 jobs:
   check:
-    name: Lint & Type Check
+    name: Lint, types, and build
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout
@@ -33,3 +42,6 @@ jobs:
 
       - name: Run TypeScript check
         run: npm run typecheck
+
+      - name: Build production application
+        run: npm run build
