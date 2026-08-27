@@ -1,0 +1,25 @@
+name: kokkonis-storefront
+
+services:
+  storefront:
+    image: kokkonis-storefront:local
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: kokkonis-storefront
+    ports:
+      - "${STOREFRONT_PORT:-3000}:3000"
+    env_file:
+      - path: .env.example
+        required: true
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    init: true
+    restart: unless-stopped
+
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3000/ >/dev/null || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s

@@ -1,5 +1,5 @@
 import "server-only";
-import { apiGet, ApiError } from "@/lib/api/client";
+import { apiGet, ApiError, resolveMediaUrl } from "@/lib/api/client";
 import type { HeroSlide, NavigationItem, StorefrontConfiguration, StorefrontImage } from "@/types/storefront";
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -29,7 +29,11 @@ function parseImage(value: unknown): StorefrontImage | null {
   if (!isRecord(value) || typeof value.url !== "string" || typeof value.original !== "string" || typeof value.alt !== "string") {
     throw new ApiError();
   }
-  return { url: value.url, original: value.original, alt: value.alt };
+  return {
+    url: resolveMediaUrl(value.url),
+    original: resolveMediaUrl(value.original),
+    alt: value.alt,
+  };
 }
 
 function parseNavigationItem(value: unknown): NavigationItem {
